@@ -41,7 +41,7 @@ return {
 				description=sstr,
 			}})
 		end,
-		usercd = 20,
+		usercd = 0,
 		guildcd = 0,
 		channelcd = 20,
 		restricted = false,
@@ -54,7 +54,7 @@ return {
 		local _, url = string.match(message.content, "(%S+) (%S+)")
 		local _, _, name = string.match(message.content, "(%S+) (%S+) (.*)")
 		if not url then return end
-		if url:sub(1,4) ~= "http" then
+		if url:sub(1,4) ~= "http" or #url < 4 then
 			url = "http://"..url
 		end
 		name = name or "Shortened link"
@@ -66,10 +66,10 @@ return {
 			description="["..name.."]("..url..")"
 		}})
 	end,
-	usercd = 0,
+	usercd = 15,
 	guildcd = 0,
 	channelcd = 0,
-	restricted = true,
+	restricted = false,
 	name = "shorten",
 	remove = 0,
 	}
