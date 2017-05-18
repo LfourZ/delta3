@@ -16,7 +16,6 @@ local token = require("../token")
 
 client:on("ready", function()
 	p(string.format("Logged in as %s", client.user.username))
-	client:setGameName("Off: QA time")
 end)
 
 client:on("messageCreate", function(message)
