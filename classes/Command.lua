@@ -105,7 +105,7 @@ function Command:run(message, override)
 	if self:allAuth(message) or override then
 		local sentMsg = self.fn(message)
 		if sentMsg then
-			Command:tryDelete(sentMsg)
+			self:tryDelete(sentMsg)
 		end
 		return sentMsg
 	else
