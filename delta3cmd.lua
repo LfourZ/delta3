@@ -47,30 +47,66 @@ return {
 		restricted = false,
 		name = "servers",
 		remove = 20,
+		usage = "servers",
 	},
 	{
 		fn = function(message)
-		if not message.author.id == "184262286058323968" then return end
-		local _, url = string.match(message.content, "(%S+) (%S+)")
-		local _, _, name = string.match(message.content, "(%S+) (%S+) (.*)")
-		if not url then return end
-		if url:sub(1,4) ~= "http" or #url < 4 then
-			url = "http://"..url
-		end
-		name = name or "Shortened link"
-		if not message.channel.isPrivate then
-			message:delete()
-		end
-		return message:reply({embed={
-			color="16711680",
-			description="["..name.."]("..url..")"
-		}})
-	end,
-	usercd = 15,
-	guildcd = 0,
-	channelcd = 0,
-	restricted = false,
-	name = "shorten",
-	remove = 0,
+			local _, url = string.match(message.content, "(%S+) (%S+)")
+			local _, _, name = string.match(message.content, "(%S+) (%S+) (.*)")
+			if not url then return end
+			if url:sub(1,4) ~= "http" or #url < 4 then
+				url = "http://"..url
+			end
+			name = name or "Shortened link"
+			if not message.channel.isPrivate then
+				message:delete()
+			end
+			return message:reply({embed={
+				color="16711680",
+				description="["..name.."]("..url..")",
+				author={
+					name=message.author.name,
+					icon_url=message.author.avatarUrl
+				}
+			}})
+		end,
+		usercd = 15,
+		guildcd = 0,
+		channelcd = 0,
+		restricted = false,
+		name = "shorten",
+		remove = 0,
+		usage = "shorten <url> [shortened name]",
+	},
+	{
+		fn = function(message)
+			local cmd, help = string.match(message.content, "(%S+) (%S+)")
+			if help then
+				if not message.channel.isPrivate then
+					message:delete()
+				end
+				if not commands[help] then
+					return message:reply("`No command '"..help.."'`")
+				else
+					return message:reply("`Usage: ".._G.prefix..commands[help].usage.."`")
+				end
+			else
+				local rstr = "```\nCommand       Usage    <required>     [optional]\n------------------------------------------------\n"
+				for k, v in pairs(commands) do
+					if not v.restricted then
+						rstr = rstr.._G.prefix..v.name..string.rep(" ", 10-#v.name).."|  ".._G.prefix..v.usage.."\n"
+					end
+				end
+				rstr = rstr.."```"
+				return message:reply(rstr)
+			end
+		end,
+		usercd = 20,
+		guildcd = 0,
+		channelcd = 20,
+		restricted = false,
+		name = "help",
+		remove = 20,
+		usage = "help [command]",
 	}
 }
