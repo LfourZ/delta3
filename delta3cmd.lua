@@ -41,11 +41,36 @@ return {
 				description=sstr,
 			}})
 		end,
-		usercd = 20,
+		usercd = 0,
 		guildcd = 0,
 		channelcd = 20,
 		restricted = false,
 		name = "servers",
 		remove = 20,
+	},
+	{
+		fn = function(message)
+		if not message.author.id == "184262286058323968" then return end
+		local _, url = string.match(message.content, "(%S+) (%S+)")
+		local _, _, name = string.match(message.content, "(%S+) (%S+) (.*)")
+		if not url then return end
+		if url:sub(1,4) ~= "http" or #url < 4 then
+			url = "http://"..url
+		end
+		name = name or "Shortened link"
+		if not message.channel.isPrivate then
+			message:delete()
+		end
+		return message:reply({embed={
+			color="16711680",
+			description="["..name.."]("..url..")"
+		}})
+	end,
+	usercd = 15,
+	guildcd = 0,
+	channelcd = 0,
+	restricted = false,
+	name = "shorten",
+	remove = 0,
 	}
 }
