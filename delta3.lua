@@ -21,7 +21,6 @@ end)
 
 client:on("messageCreate", function(message)
 	if message.author == client.user then return end
-	if message.guild.id ~= "184264120982306817" then return end
 	local cmd, arg = string.match(message.content, "(%S+) (.*)")
 	cmd = cmd or message.content
 	if not cmd:sub(1,1) == _G.prefix then return end
