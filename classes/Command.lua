@@ -26,6 +26,7 @@ function Command.new(arg)
 	_command.restricted = arg.restricted or false
 	_command.name = arg.name
 	_command.remove = arg.remove or _command.channelcd
+	_command.usage = arg.usage or "No usage description yet."
 
 	_G.commands[_command.name] = _command
 
