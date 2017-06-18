@@ -143,8 +143,8 @@ If a command is specified, shows detailed description of command.]]
 			if not suggestion then
 				msg = "TODO"
 			else
-				suggestionFull = message.author.id.." ("..message.author.name..") said in "..message.guild.id.." ("..
-				message.guild.name..") :"..suggestion
+				suggestionFull = "```"..message.author.id.." ("..message.author.name..") said in "..message.guild.id.." ("..
+				message.guild.name.."): "..suggestion.."```"
 				msg = "`Your suggestion has been submitted`"
 			end
 			if suggestionFull then
