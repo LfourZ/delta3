@@ -20,6 +20,7 @@ local token = require("../token")
 
 client:on("ready", function()
 	p(string.format("Logged in as %s", client.user.username))
+	client:setGameName(_G.prefix.."help")
 	-- _G.timer.setInterval(5000, function()
 	-- 	coroutine.wrap(function()
 	-- 		print("test")
