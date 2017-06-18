@@ -239,6 +239,9 @@ If a command is specified, shows detailed description of command.]]
 									title = "Unknown server '"..server.."'"
 								end
 							end
+							if not message.channel.isPrivate then
+								message:delete()
+							end
 							return coroutine.wrap(message.reply)(message,
 							{embed={
 								title=title,
