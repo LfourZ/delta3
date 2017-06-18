@@ -1,15 +1,4 @@
 return {
-	-- {
-	-- 	fn = function(message)
-	-- 		return message:reply("test")
-	-- 	end,
-	-- 	usercd = 30,
-	-- 	guildcd = 0,
-	-- 	channelcd = 30,
-	-- 	restricted = true,
-	-- 	name = "test",
-	-- 	remove = 10,
-	-- }
 	{
 		fn = function(message)
 			local res, data = _G.http.request("GET", "http://stats.skufs.net/api/serverlist/country/se")
@@ -91,13 +80,16 @@ return {
 					return message:reply("`Usage: ".._G.prefix..commands[help].usage.."`")
 				end
 			else
-				local rstr = "```\nCommand       Usage    <required>     [optional]\n------------------------------------------------\n"
+				local rstr = "```\nCommand       Usage    <required>     [optional]\n━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
 				for k, v in pairs(commands) do
 					if not v.restricted then
-						rstr = rstr.._G.prefix..v.name..string.rep(" ", 10-#v.name).."|  ".._G.prefix..v.usage.."\n"
+						rstr = rstr.._G.prefix..v.name..string.rep(" ", 10-#v.name).."┃  ".._G.prefix..v.usage.."\n"
 					end
 				end
 				rstr = rstr.."```"
+				if not message.channel.isPrivate then
+					message:delete()
+				end
 				return message:reply(rstr)
 			end
 		end,
@@ -108,5 +100,33 @@ return {
 		name = "help",
 		remove = 20,
 		usage = "help [command]",
+	},
+	-- {
+	-- 	fn = function(message)
+	-- 		for k, v in pairs(_G.cmdInfo.tackrs) do
+	-- 			local res, data = _G.http.request("GET", "https://apps.runescape.com/runemetrics/profile/profile?user="..v.."&activities=0")
+	-- 			data = json.decode(data)
+	-- 			newstats = _G.cmdInfo.parsers(data)
+	-- 			local file = io.open("data/rs/"..v..".json", "W+")
+	-- 			io.input(file)--NOT DONE AT ALL
+	-- 		end
+	-- 	end,
+	-- 	name = "updaters",
+	-- 	restricted = true,
+	-- },
+	{
+		fn = function(message)
+			if not message.channel.isPrivate then
+				message:delete()
+			end
+			return message:reply("http://steamcommunity.com/groups/skufs")
+		end,
+		usercd = 20,
+		guildcd = 0,
+		channelcd = 20,
+		restricted = false,
+		name = "group",
+		remove = 20,
+		usage = "group",
 	}
 }

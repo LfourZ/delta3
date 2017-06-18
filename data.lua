@@ -20,5 +20,50 @@ return {
 		"Pokémon---",
 		"Surf------",
 		"MarioKart-"
-	}
+	},
+	keys = {
+		hearthstone = "Oss9o7BGrYmsh7URaJtspSfJgIlcp1wlH6kjsnqHZTQSFoyK29",
+	},
+	trackrs = {
+		"L-4",
+		"Pesky%20Prince",
+	},
+	skills = {
+		"attack",
+		"defence",
+		"strength",
+		"constitution",
+		"ranged",
+		"prayer",
+		"magic",
+		"cooking",
+		"woodcutting",
+		"fletching",
+		"fishing",
+		"firemaking",
+		"crafting",
+		"smithing",
+		"mining",
+		"herblore",
+		"agility",
+		"thieving",
+		"slayer",
+		"farming",
+		"runecrafting",
+		"hunter",
+		"construction",
+		"summoning",
+		"dungeoneering",
+		"divination",
+		"invention",
+	},
+	parsers = function(data)
+		local player = data
+		player.skillvalues = nil
+		player.stats = {}
+		for k, v in pairs(data.skillvalues) do
+			player.stats[_G.cmdInfo.skills[v.id+1]] = v
+		end
+		return player
+	end
 }

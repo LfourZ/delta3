@@ -4,8 +4,12 @@ _G.cd = {
 	channel = {},
 	user = {},
 }
+_G.other = {
+	cachenotify = {}
+}
 _G.timer = require("timer")
 _G.http = require("coro-http")
+_G.json = require("libs/dkjson")
 _G.prefix = "!"
 Command = require("classes/Command")
 Command.init("delta3cmd.lua")
@@ -16,6 +20,11 @@ local token = require("../token")
 
 client:on("ready", function()
 	p(string.format("Logged in as %s", client.user.username))
+	-- _G.timer.setInterval(5000, function()
+	-- 	coroutine.wrap(function()
+	-- 		print("test")
+	-- 	end)()
+	-- end)
 end)
 
 client:on("messageCreate", function(message)

@@ -101,7 +101,6 @@ function Command:tryDelete(sentMsg)
 	_G.timer.setTimeout(self.remove * 1000, coroutine.wrap(sentMsg.delete), sentMsg)
 end
 
-
 function Command:run(message, override)
 	if self:allAuth(message) or override then
 		local sentMsg = self.fn(message)
