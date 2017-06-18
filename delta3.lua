@@ -1,3 +1,4 @@
+require("libs/functions")
 _G.commands = {}
 _G.cd = {
 	guild = {},
@@ -11,6 +12,8 @@ _G.timer = require("timer")
 _G.http = require("coro-http")
 _G.json = require("libs/dkjson")
 _G.prefix = "!"
+_G.htmlparser = require("htmlparser")
+_G.https = require("https")
 local discordia = require("discordia")
 _G.client = discordia.Client()
 local token = require("../token")

@@ -105,19 +105,6 @@ return {
 [[If a command isn't specified, shows list of all commands.
 If a command is specified, shows detailed description of command.]]
 	},
-	-- {
-	-- 	fn = function(message)
-	-- 		for k, v in pairs(_G.cmdInfo.tackrs) do
-	-- 			local res, data = _G.http.request("GET", "https://apps.runescape.com/runemetrics/profile/profile?user="..v.."&activities=0")
-	-- 			data = json.decode(data)
-	-- 			newstats = _G.cmdInfo.parsers(data)
-	-- 			local file = io.open("data/rs/"..v..".json", "W+")
-	-- 			io.input(file)--NOT DONE AT ALL
-	-- 		end
-	-- 	end,
-	-- 	name = "updaters",
-	-- 	restricted = true,
-	-- },
 	{
 		fn = function(message)
 			if not message.channel.isPrivate then
@@ -164,5 +151,116 @@ If a command is specified, shows detailed description of command.]]
 		usage = "suggest <suggestion>",
 		usageLong =
 [[You can use this command to suggest a feature, or report a bug.]],
-	}
+	},
+	{
+		fn = function(message)
+			local _, server = string.match(message.content, "(%S+) (.*)")
+			local data = ""
+			local s = {}
+			local admins = _G.https.request({host="skufs.net",path="/admins"}, function (res)
+				res:on("data", function (chunk)
+					data = data..chunk
+				end)
+				res:on("end", function()
+					local root = _G.htmlparser.parse(data)
+					local l1 = root:select(".staff_column")
+					for _, e1 in ipairs(l1) do
+						local server = e1:select("h2")[1]:getcontent()
+						s[server] = s[server] or {}
+						local l2 = e1:select("li")
+						for _, e2 in ipairs(l2) do
+							local onlineStatus = e2:select("div")[1]
+							s[server][e2:select("a")[1]:getcontent()] = {
+								online = getOnline(onlineStatus.classes),
+								lastOnline = lastOnline(onlineStatus:getcontent()),
+								id = e2:select("a")[1].attributes.href:match("(%d+)"),
+								role = "admin",
+							}
+						end
+					end
+					data = ""
+					local moderators = _G.https.request({host="skufs.net",path="/moderators"}, function (res)
+						res:on("data", function (chunk)
+							data = data..chunk
+						end)
+						res:on("end", function()
+							local root = _G.htmlparser.parse(data)
+							local l1 = root:select(".staff_column")
+							for _, e1 in ipairs(l1) do
+								local server = e1:select("h2")[1]:getcontent()
+								s[server] = s[server] or {}
+								local l2 = e1:select("li")
+								for _, e2 in ipairs(l2) do
+									local onlineStatus = e2:select("div")[1]
+									s[server][e2:select("a")[1]:getcontent()] = {
+										online = getOnline(onlineStatus.classes),
+										lastOnline = lastOnline(onlineStatus:getcontent()),
+										id = e2:select("a")[1].attributes.href:match("(%d+)"),
+										role = "moderator",
+									}
+								end
+							end
+							local msg = ""
+							local title = ""
+							if not server then
+								title = "Online staff"
+								for k, v in pairs(s) do
+									msg = msg.."__**"..k.."**__\n"
+									local anyOnline = false
+									for i, j in pairs(v) do
+										if j.online then
+											msg = msg.."["..i.." ("..j.role..")](http://steamcommunity.com/profiles/"..j.id..")".."\n"
+											anyOnline = true
+										end
+									end
+									if not anyOnline then
+										msg = msg.."No staff online\n"
+									end
+								end
+							else
+								server = server:lower()
+								if _G.cmdInfo.servernames[server] ~= nil then
+									local serverTitle = _G.cmdInfo.servernames[server]
+									title = serverTitle.." staff:"
+									local offlineStaff = ""
+									local onlineStaff = ""
+									local offlineEmoji = ":red_circle:"
+									local onlineEmoji = ":large_blue_circle:"
+									for k, v in pairs(s[serverTitle]) do
+										local online = ""
+										if v.online then
+											onlineStaff = onlineStaff..onlineEmoji.."["..k.." ("..v.role..")](http://steamcommunity.com/profiles/"..v.id..")\n"
+										else
+											offlineStaff = offlineStaff..offlineEmoji.."["..k.." ("..v.role..")](http://steamcommunity.com/profiles/"..v.id..")\n"
+										end
+									end
+									msg = msg..onlineStaff..offlineStaff
+								else
+									title = "Unknown server '"..server.."'"
+								end
+							end
+							return coroutine.wrap(message.reply)(message,
+							{embed={
+								title=title,
+								color="16711680",
+								description=msg,
+							}})
+						end)
+					end)
+					moderators:done()
+				end)
+			end)
+			admins:done()
+		end,
+		usercd = 20,
+		guildcd = 0,
+		channelcd = 20,
+		restricted = false,
+		name = "staff",
+		remove = 20,
+		usage = "staff [server]",
+		usageLong =
+[[Lists online staff on the servers.
+If server is specified, lists all staff on server (including offline staff).]],
+	},
 }
