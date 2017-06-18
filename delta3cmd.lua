@@ -37,6 +37,8 @@ return {
 		name = "servers",
 		remove = 20,
 		usage = "servers",
+		usageLong =
+[[Lists all servers as well as their player status, and a direct link to join.]],
 	},
 	{
 		fn = function(message)
@@ -66,32 +68,32 @@ return {
 		name = "shorten",
 		remove = 0,
 		usage = "shorten <url> [shortened name]",
+		usageLong =
+[[Creates a shortened link to the specified url.]],
 	},
 	{
 		fn = function(message)
 			local cmd, help = string.match(message.content, "(%S+) (%S+)")
+			local msg = ""
 			if help then
-				if not message.channel.isPrivate then
-					message:delete()
-				end
 				if not commands[help] then
-					return message:reply("`No command '"..help.."'`")
+					msg = "`No command '"..help.."'`"
 				else
-					return message:reply("`Usage: ".._G.prefix..commands[help].usage.."`")
+					msg = "```Usage: ".._G.prefix..commands[help].usage.."\n"..commands[help].usageLong.."```"
 				end
 			else
-				local rstr = "```\nCommand       Usage    <required>     [optional]\n━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+				msg = "```\nCommand       Usage    <required>     [optional]\n━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
 				for k, v in pairs(commands) do
 					if not v.restricted then
-						rstr = rstr.._G.prefix..v.name..string.rep(" ", 10-#v.name).."┃  ".._G.prefix..v.usage.."\n"
+						msg = msg.._G.prefix..v.name..string.rep(" ", 10-#v.name).."┃  ".._G.prefix..v.usage.."\n"
 					end
 				end
-				rstr = rstr.."```"
-				if not message.channel.isPrivate then
-					message:delete()
-				end
-				return message:reply(rstr)
+				msg = msg.."```"
 			end
+			if not message.channel.isPrivate then
+				message:delete()
+			end
+			return message:reply(msg)
 		end,
 		usercd = 20,
 		guildcd = 0,
@@ -100,6 +102,9 @@ return {
 		name = "help",
 		remove = 20,
 		usage = "help [command]",
+		usageLong =
+[[If a command isn't specified, shows list of all commands.
+If a command is specified, shows detailed description of command.]]
 	},
 	-- {
 	-- 	fn = function(message)
@@ -128,5 +133,7 @@ return {
 		name = "group",
 		remove = 20,
 		usage = "group",
+		usageLong =
+[[Dislpays link to the SKUFS steam group.]]
 	}
 }

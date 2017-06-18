@@ -27,6 +27,7 @@ function Command.new(arg)
 	_command.name = arg.name
 	_command.remove = arg.remove or _command.channelcd
 	_command.usage = arg.usage or "No usage description yet."
+	_command.usageLong = arg.usageLong or "No long usage description yet."
 
 	_G.commands[_command.name] = _command
 
