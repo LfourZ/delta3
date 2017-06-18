@@ -11,16 +11,16 @@ _G.timer = require("timer")
 _G.http = require("coro-http")
 _G.json = require("libs/dkjson")
 _G.prefix = "!"
+local discordia = require("discordia")
+_G.client = discordia.Client()
+local token = require("../token")
 Command = require("classes/Command")
 Command.init("delta3cmd.lua")
-local discordia = require("discordia")
-local client = discordia.Client()
-local token = require("../token")
 
 
-client:on("ready", function()
-	p(string.format("Logged in as %s", client.user.username))
-	client:setGameName(_G.prefix.."help")
+_G.client:on("ready", function()
+	p(string.format("Logged in as %s", _G.client.user.username))
+	_G.client:setGameName(_G.prefix.."help")
 	-- _G.timer.setInterval(5000, function()
 	-- 	coroutine.wrap(function()
 	-- 		print("test")
@@ -28,8 +28,8 @@ client:on("ready", function()
 	-- end)
 end)
 
-client:on("messageCreate", function(message)
-	if message.author == client.user then return end
+_G.client:on("messageCreate", function(message)
+	if message.author == _G.client.user then return end
 	local cmd, arg = string.match(message.content, "(%S+) (.*)")
 	cmd = cmd or message.content
 	if not cmd:sub(1,1) == _G.prefix then return end
@@ -39,4 +39,4 @@ client:on("messageCreate", function(message)
 	end
 end)
 
-client:run(_G.SKUFS_TOKEN)
+_G.client:run(_G.SKUFS_TOKEN)

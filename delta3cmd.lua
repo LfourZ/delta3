@@ -19,7 +19,6 @@ return {
 				if surfMap:sub(1,5) == "surf_" then
 					surfMap = surfMap:sub(6)
 				end
-				--_G.client:setGameName(surfMap) --Only source of game name change, will be outdated frequently
 			end
 			if not message.channel.isPrivate then
 				message:delete()
@@ -82,7 +81,7 @@ return {
 					msg = "```Usage: ".._G.prefix..commands[help].usage.."\n"..commands[help].usageLong.."```"
 				end
 			else
-				msg = "```\nCommand       Usage    <required>     [optional]\n━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+				msg = "```Use ".._G.prefix.."help <command> to get more info about a specific command\nCommand       Usage    <required>     [optional]\n━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
 				for k, v in pairs(commands) do
 					if not v.restricted then
 						msg = msg.._G.prefix..v.name..string.rep(" ", 10-#v.name).."┃  ".._G.prefix..v.usage.."\n"
@@ -135,5 +134,35 @@ If a command is specified, shows detailed description of command.]]
 		usage = "group",
 		usageLong =
 [[Dislpays link to the SKUFS steam group.]]
+	},
+	{
+		fn = function(message)
+			local _, suggestion = string.match(message.content, "(%S+) (.*)")
+			local msg = ""
+			local suggestionFull = ""
+			if not suggestion then
+				msg = "TODO"
+			else
+				suggestionFull = message.author.id.." ("..message.author.name..") said in "..message.guild.id.." ("..
+				message.guild.name..") :"..suggestion
+				msg = "`Your suggestion has been submitted`"
+			end
+			if suggestionFull then
+				_G.client:getUser("184262286058323968"):sendMessage(suggestionFull)
+			end
+			if not message.channel.isPrivate then
+				message:delete()
+			end
+			return message:reply(msg)
+		end,
+		usercd = 120,
+		guildcd = 0,
+		channelcd = 20,
+		restricted = false,
+		name = "suggest",
+		remove = 20,
+		usage = "suggest <suggestion>",
+		usageLong =
+[[You can use this command to suggest a feature, or report a bug.]],
 	}
 }

@@ -2,17 +2,8 @@ _G.cmdInfo = assert(loadfile("data.lua")())
 dofile("libs/xml.lua")
 dofile("libs/handler.lua")
 
-function parseXML(XML)
-	local handler = simpleTreeHandler()
-	local parser = xmlParser(handler)
-	parser:parse(XML)
-
-	return parser._handler.root
-end
-
 local Command = {}
 Command.__index = Command
-
 
 function Command.new(arg)
 	local _command = {}
