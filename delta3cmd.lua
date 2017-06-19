@@ -255,7 +255,7 @@ If a command is specified, shows detailed description of command.]]
 		usercd = 20,
 		guildcd = 0,
 		channelcd = 20,
-		restricted = true,
+		restricted = false,
 		name = "staff",
 		remove = 20,
 		usage = "!staff [server]",
