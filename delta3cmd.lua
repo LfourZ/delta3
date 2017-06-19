@@ -239,9 +239,6 @@ If a command is specified, shows detailed description of command.]]
 									title = "Unknown server '"..server.."'"
 								end
 							end
-							if not message.channel.isPrivate then
-								message:delete()
-							end
 							return coroutine.wrap(message.reply)(message,
 							{embed={
 								title=title,
@@ -261,9 +258,9 @@ If a command is specified, shows detailed description of command.]]
 		restricted = true,
 		name = "staff",
 		remove = 20,
-		usage = "staff [server]",
+		usage = "!staff [server]",
 		usageLong =
 [[Lists online staff on the servers.
 If server is specified, lists all staff on server (including offline staff).]],
-	},
+	}
 }
