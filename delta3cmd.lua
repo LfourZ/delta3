@@ -258,9 +258,9 @@ If a command is specified, shows detailed description of command.]]
 		restricted = false,
 		name = "staff",
 		remove = 20,
-		usage = "!staff [server]",
+		usage = "staff [server]",
 		usageLong =
 [[Lists online staff on the servers.
 If server is specified, lists all staff on server (including offline staff).]],
-	}
+	},
 }

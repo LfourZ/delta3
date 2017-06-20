@@ -78,5 +78,5 @@ return {
 			player.stats[_G.cmdInfo.skills[v.id+1]] = v
 		end
 		return player
-	end
+	end,
 }
