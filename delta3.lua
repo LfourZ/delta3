@@ -1,12 +1,9 @@
 require("libs/functions")
 _G.commands = {}
-_G.cd = {
+_G.cooldown = {
 	guild = {},
 	channel = {},
 	user = {},
-}
-_G.other = {
-	cachenotify = {}
 }
 _G.timer = require("timer")
 _G.http = require("coro-http")
@@ -17,18 +14,13 @@ _G.https = require("https")
 local discordia = require("discordia")
 _G.client = discordia.Client()
 local token = require("../token")
+
 Command = require("classes/Command")
 Command.init("delta3cmd.lua")
-
 
 _G.client:on("ready", function()
 	p(string.format("Logged in as %s", _G.client.user.username))
 	_G.client:setGameName(_G.prefix.."help")
-	-- _G.timer.setInterval(5000, function()
-	-- 	coroutine.wrap(function()
-	-- 		print("test")
-	-- 	end)()
-	-- end)
 end)
 
 _G.client:on("messageCreate", function(message)

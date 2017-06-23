@@ -15,3 +15,9 @@ function getOnline(t)
 		end
 	end
 end
+
+function tryDelete(message)
+	if not message.channel.isPrivate then
+		message:delete()
+	end
+end

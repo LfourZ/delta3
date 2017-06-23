@@ -9,7 +9,7 @@ return {
 			local sstr = ""
 			local surfMap = ""
 			for k, v in pairs(data.serverlist.server) do
-				sstr=sstr.."`".._G.cmdInfo.id[tonumber(v.id)]..": "..v.act.."/"..v.max.."` [Click to join](steam://connect/"..v.addr..":"..v.port..")\n"
+				sstr=sstr.."`".._G.cData.id[tonumber(v.id)]..": "..v.act.."/"..v.max.."` [Click to join](steam://connect/"..v.addr..":"..v.port..")\n"
 				if v.id == "3" then
 					surfMap = v.map
 				end
@@ -20,9 +20,7 @@ return {
 					surfMap = surfMap:sub(6)
 				end
 			end
-			if not message.channel.isPrivate then
-				message:delete()
-			end
+			tryDelete(message)
 			return message:reply({embed={
 				title="Serverlist",
 				color="16711680",
@@ -48,9 +46,7 @@ return {
 				url = "http://"..url
 			end
 			name = name or "Shortened link"
-			if not message.channel.isPrivate then
-				message:delete()
-			end
+			tryDelete(message)
 			return message:reply({embed={
 				color="16711680",
 				description="["..name.."]("..url..")",
@@ -89,9 +85,7 @@ return {
 				end
 				msg = msg.."```"
 			end
-			if not message.channel.isPrivate then
-				message:delete()
-			end
+			tryDelete(message)
 			return message:reply(msg)
 		end,
 		usercd = 20,
@@ -107,9 +101,7 @@ If a command is specified, shows detailed description of command.]]
 	},
 	{
 		fn = function(message)
-			if not message.channel.isPrivate then
-				message:delete()
-			end
+			tryDelete(message)
 			return message:reply("http://steamcommunity.com/groups/skufs")
 		end,
 		usercd = 20,
@@ -137,9 +129,7 @@ If a command is specified, shows detailed description of command.]]
 			if suggestionFull then
 				_G.client:getUser("184262286058323968"):sendMessage(suggestionFull)
 			end
-			if not message.channel.isPrivate then
-				message:delete()
-			end
+			tryDelete(message)
 			return message:reply(msg)
 		end,
 		usercd = 120,
@@ -219,8 +209,8 @@ If a command is specified, shows detailed description of command.]]
 								end
 							else
 								server = server:lower()
-								if _G.cmdInfo.servernames[server] ~= nil then
-									local serverTitle = _G.cmdInfo.servernames[server]
+								if _G.cData.servernames[server] ~= nil then
+									local serverTitle = _G.cData.servernames[server]
 									title = serverTitle.." staff:"
 									local offlineStaff = ""
 									local onlineStaff = ""
@@ -229,9 +219,9 @@ If a command is specified, shows detailed description of command.]]
 									for k, v in pairs(s[serverTitle]) do
 										local online = ""
 										if v.online then
-											onlineStaff = onlineStaff..onlineEmoji.."["..k.." ("..v.role..")](http://steamcommunity.com/profiles/"..v.id..")\n"
+											onlineStaff = onlineStaff..onlineEmoji.."["..k.."](http://steamcommunity.com/profiles/"..v.id..") ("..v.role..")\n"
 										else
-											offlineStaff = offlineStaff..offlineEmoji.."["..k.." ("..v.role..")](http://steamcommunity.com/profiles/"..v.id..")\n"
+											offlineStaff = offlineStaff..offlineEmoji.."["..k.."](http://steamcommunity.com/profiles/"..v.id..") ("..v.role..")\n"
 										end
 									end
 									msg = msg..onlineStaff..offlineStaff

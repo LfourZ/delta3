@@ -1,4 +1,4 @@
-_G.cmdInfo = assert(loadfile("data.lua")())
+_G.cData = assert(loadfile("data.lua")())
 dofile("libs/xml.lua")
 dofile("libs/handler.lua")
 
@@ -35,9 +35,9 @@ end
 function Command:userAuth(message)
 	local id = message.author.id
 	if self.usercd == 0 then return true end
-	if not _G.cd.user[id] then _G.cd.user[id] = 0 return true end
+	if not _G.cooldown.user[id] then _G.cooldown.user[id] = 0 return true end
 
-	if _G.cd.user[id] < os.time() then
+	if _G.cooldown.user[id] < os.time() then
 		return true
 	else
 		return false
@@ -47,9 +47,9 @@ end
 function Command:guildAuth(message)
 	local id = message.guild.id
 	if self.guildcd == 0 then return true end
-	if not _G.cd.guild[id] then _G.cd.guild[id] = 0 return true end
+	if not _G.cooldown.guild[id] then _G.cooldown.guild[id] = 0 return true end
 
-	if _G.cd.guild[id] < os.time() then
+	if _G.cooldown.guild[id] < os.time() then
 		return true
 	else
 		return false
@@ -59,9 +59,9 @@ end
 function Command:channelAuth(message)
 	local id = message.channel.id
 	if self.channelcd == 0 then return true end
-	if not _G.cd.channel[id] then _G.cd.channel[id] = 0 return true end
+	if not _G.cooldown.channel[id] then _G.cooldown.channel[id] = 0 return true end
 
-	if _G.cd.channel[id] < os.time() then
+	if _G.cooldown.channel[id] < os.time() then
 		return true
 	else
 		return false
@@ -69,9 +69,9 @@ function Command:channelAuth(message)
 end
 
 function Command:setCd(message)
-	_G.cd.user[message.author.id] = os.time() + self.usercd
-	_G.cd.guild[message.guild.id] = os.time() + self.guildcd
-	_G.cd.channel[message.channel.id] = os.time() + self.channelcd
+	_G.cooldown.user[message.author.id] = os.time() + self.usercd
+	_G.cooldown.guild[message.guild.id] = os.time() + self.guildcd
+	_G.cooldown.channel[message.channel.id] = os.time() + self.channelcd
 end
 
 function Command:allAuth(message)
