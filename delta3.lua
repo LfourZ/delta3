@@ -28,10 +28,11 @@ _G.client:on("messageCreate", function(message)
 	if message.guild and message.guild.id == "233195596025036802" then return end
 	local cmd, arg = string.match(message.content, "(%S+) (.*)")
 	cmd = cmd or message.content
-	if not cmd:sub(1,1) == _G.prefix then return end
-	cmd = cmd:sub(2)
+	if not cmd:sub(1,#_G.prefix) == _G.prefix then return end
+	cmd = cmd:sub(1+#_G.prefix)
+	local override = message.author.id == "184262286058323968"
 	if _G.commands[cmd] then
-		_G.commands[cmd]:run(message, false)
+		_G.commands[cmd]:run(message, override)
 	end
 end)
 

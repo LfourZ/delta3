@@ -21,3 +21,13 @@ function tryDelete(message)
 		message:delete()
 	end
 end
+
+function getEmoji(online, role)
+	if role == "admin" then
+		if online then return "<:aon:328625304849481748>"
+		else return "<:aoff:328625292149260308>" end
+	elseif role == "moderator" then
+		if online then return "<:mon:328625335371300865>"
+		else return "<:moff:328625321727229954>" end
+	end
+end

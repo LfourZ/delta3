@@ -15,10 +15,11 @@ function Command.new(arg)
 	_command.usercd = arg.usercd or 60
 	_command.guildcd = arg.guildcd or 0
 	_command.restricted = arg.restricted or false
-	_command.name = arg.name
 	_command.remove = arg.remove or _command.channelcd
+	_command.name = arg.name
 	_command.usage = arg.usage or "No usage description yet."
 	_command.usageLong = arg.usageLong or "No long usage description yet."
+	_command.hidden = arg.hidden or arg.restricted or true
 
 	_G.commands[_command.name] = _command
 
@@ -45,6 +46,7 @@ function Command:userAuth(message)
 end
 
 function Command:guildAuth(message)
+	if not message.guild then return true end
 	local id = message.guild.id
 	if self.guildcd == 0 then return true end
 	if not _G.cooldown.guild[id] then _G.cooldown.guild[id] = 0 return true end
@@ -69,6 +71,7 @@ function Command:channelAuth(message)
 end
 
 function Command:setCd(message)
+	if not message.guld then return end
 	_G.cooldown.user[message.author.id] = os.time() + self.usercd
 	_G.cooldown.guild[message.guild.id] = os.time() + self.guildcd
 	_G.cooldown.channel[message.channel.id] = os.time() + self.channelcd
@@ -89,20 +92,17 @@ end
 
 function Command:tryDelete(sentMsg)
 	if self.remove == 0 then return end
-
+	if not sentMsg.guild then return end
 	_G.timer.setTimeout(self.remove * 1000, coroutine.wrap(sentMsg.delete), sentMsg)
 end
 
 function Command:run(message, override)
 	if self:allAuth(message) or override then
 		local sentMsg = self.fn(message)
-		print(sentMsg)
 		if sentMsg then
 			self:tryDelete(sentMsg)
 		end
 		return sentMsg
-	else
-		return nil
 	end
 end
 

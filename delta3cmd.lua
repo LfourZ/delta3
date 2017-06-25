@@ -79,7 +79,7 @@ return {
 			else
 				msg = "```Use ".._G.prefix.."help <command> to get more info about a specific command\nCommand       Usage    <required>     [optional]\n━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
 				for k, v in pairs(commands) do
-					if not v.restricted then
+					if not v.restricted or v.hidden then
 						msg = msg.._G.prefix..v.name..string.rep(" ", 10-#v.name).."┃  ".._G.prefix..v.usage.."\n"
 					end
 				end
@@ -199,7 +199,7 @@ If a command is specified, shows detailed description of command.]]
 									local anyOnline = false
 									for i, j in pairs(v) do
 										if j.online then
-											msg = msg.."["..i.." ("..j.role..")](http://steamcommunity.com/profiles/"..j.id..")".."\n"
+											msg = msg.."["..getEmoji(true, j.role)..i.."](http://steamcommunity.com/profiles/"..j.id..")".."\n"
 											anyOnline = true
 										end
 									end
@@ -219,9 +219,9 @@ If a command is specified, shows detailed description of command.]]
 									for k, v in pairs(s[serverTitle]) do
 										local online = ""
 										if v.online then
-											onlineStaff = onlineStaff..onlineEmoji.."["..k.."](http://steamcommunity.com/profiles/"..v.id..") ("..v.role..")\n"
+											onlineStaff = onlineStaff..getEmoji(v.online, v.role).."["..k.."](http://steamcommunity.com/profiles/"..v.id..")\n"
 										else
-											offlineStaff = offlineStaff..offlineEmoji.."["..k.."](http://steamcommunity.com/profiles/"..v.id..")".." ("..v.role..")\n"
+											offlineStaff = offlineStaff..getEmoji(v.online, v.role).."["..k.."](http://steamcommunity.com/profiles/"..v.id..") "..v.lastOnline.d.."/"..v.lastOnline.m.."\n"
 										end
 									end
 									msg = msg..onlineStaff..offlineStaff
