@@ -221,7 +221,7 @@ If a command is specified, shows detailed description of command.]]
 										if v.online then
 											onlineStaff = onlineStaff..onlineEmoji.."["..k.."](http://steamcommunity.com/profiles/"..v.id..") ("..v.role..")\n"
 										else
-											offlineStaff = offlineStaff..offlineEmoji.."["..k.."](http://steamcommunity.com/profiles/"..v.id..") ("..v.role..")\n"
+											offlineStaff = offlineStaff..offlineEmoji.."["..k.."](http://steamcommunity.com/profiles/"..v.id..")".." ("..v.role..")\n"
 										end
 									end
 									msg = msg..onlineStaff..offlineStaff
