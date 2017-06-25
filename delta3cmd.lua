@@ -27,9 +27,9 @@ return {
 				description=sstr,
 			}})
 		end,
-		usercd = 0,
+		usercd = 10,
 		guildcd = 0,
-		channelcd = 20,
+		channelcd = 0,
 		restricted = false,
 		name = "servers",
 		remove = 20,
@@ -56,7 +56,7 @@ return {
 				}
 			}})
 		end,
-		usercd = 15,
+		usercd = 10,
 		guildcd = 0,
 		channelcd = 0,
 		restricted = false,
@@ -88,12 +88,12 @@ return {
 			tryDelete(message)
 			return message:reply(msg)
 		end,
-		usercd = 20,
+		usercd = 10,
 		guildcd = 0,
-		channelcd = 20,
+		channelcd = 0,
 		restricted = false,
 		name = "help",
-		remove = 20,
+		remove = 10,
 		usage = "help [command]",
 		usageLong =
 [[If a command isn't specified, shows list of all commands.
@@ -134,7 +134,7 @@ If a command is specified, shows detailed description of command.]]
 		end,
 		usercd = 120,
 		guildcd = 0,
-		channelcd = 20,
+		channelcd = 0,
 		restricted = false,
 		name = "suggest",
 		remove = 20,
@@ -242,12 +242,12 @@ If a command is specified, shows detailed description of command.]]
 			end)
 			admins:done()
 		end,
-		usercd = 20,
+		usercd = 10,
 		guildcd = 0,
-		channelcd = 20,
+		channelcd = 0,
 		restricted = false,
 		name = "staff",
-		remove = 20,
+		remove = 10,
 		usage = "staff [server]",
 		usageLong =
 [[Lists online staff on the servers.
