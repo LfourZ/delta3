@@ -31,6 +31,7 @@ return {
 		["178.63.73.69:27016"] = "Pokémon",
 		["178.63.73.69:27017"] = "Surf",
 		["178.63.73.69:27018"] = "MarioKart",
+		["178.63.73.69:27019"] = "Deathrun",
 	},
 	id = {
 		"BigCity---", --Because who has time to do formatting in realtime

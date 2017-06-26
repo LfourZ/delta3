@@ -253,4 +253,27 @@ If a command is specified, shows detailed description of command.]]
 [[Lists online staff on the servers.
 If server is specified, lists all staff on server (including offline staff).]],
 	},
+	{
+		fn = function(message)
+			local msg = ""
+			for k, v in pairs(_G.cData.sname) do
+				msg = msg.."["..v.."](steam://connect/"..k..")\n"
+			end
+			tryDelete(message)
+			return message:reply(
+			{embed={
+				title = "Click to join!",
+				description = msg,
+			}})
+		end,
+		udercd = 20,
+		guildcd = 0,
+		channelcd = 0,
+		restricted = false,
+		name = "join",
+		remove = 20,
+		usage = "join",
+		usageLong =
+[[Sends list of links to join the servers.]],
+	}
 }
