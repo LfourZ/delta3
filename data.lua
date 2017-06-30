@@ -37,6 +37,7 @@ return {
 		"BigCity---", --Because who has time to do formatting in realtime
 		"Pokémon---",
 		"Surf------",
-		"MarioKart-"
+		"MarioKart-",
+		"Deathrun--", --Not used, but muh consistency
 	}
 }

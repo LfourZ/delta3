@@ -275,5 +275,35 @@ If server is specified, lists all staff on server (including offline staff).]],
 		usage = "join",
 		usageLong =
 [[Sends list of links to join the servers.]],
+	},
+	{
+		fn = function(message)
+			if message.channel.id ~= "330449896408875019" then return end
+			local _, send = message.content:match("(%S+) (.*)")
+			local msg
+			if not send then
+				print("something went wrong!")
+				return
+			elseif #send > 255 then
+				msg = "`Message cannot be longer than 255 characters.`"
+			else
+				send = send:gsub("%s", "_")
+				local res, data = http.request("GET", "http://api.program-o.com/v2/chatbot/?bot_id=10&say="..send.."&convo_id=mememan&format=json")
+				p(data)
+				data = _G.json.decode(data)
+				msg = (message.member.nickname or message.author.name).." > "..data.botsay:sub(1,1)..data.botsay:sub(2):lower()
+			end
+			return message:reply(msg)
+		end,
+		usercd = 5,
+		guildcd = 0,
+		channelcd = 0,
+		restricted = false,
+		hidden = true,
+		name = "cb",
+		remove = 0,
+		usage = "chatbot <message>",
+		usageLong =
+[[It's a chatbot, it doens't need explaining, come on. This command is probably temporary.]]
 	}
 }
