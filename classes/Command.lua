@@ -99,6 +99,9 @@ end
 function Command:run(message, override)
 	if self:allAuth(message) or override then
 		local sentMsg = self.fn(message)
+		if not self.name == "cb" then
+			report(message.author.name.." "..message.content)
+		end
 		if sentMsg then
 			self:tryDelete(sentMsg)
 		end

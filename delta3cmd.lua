@@ -288,7 +288,7 @@ If server is specified, lists all staff on server (including offline staff).]],
 				msg = "`Message cannot be longer than 255 characters.`"
 			else
 				send = send:gsub("%s", "_")
-				local res, data = http.request("GET", "http://api.program-o.com/v2/chatbot/?bot_id=10&say="..send.."&convo_id=mememan&format=json")
+				local res, data = http.request("GET", "http://api.program-o.com/v2/chatbot/?bot_id=6&say="..send.."&convo_id="..message.author.id.."&format=json")
 				p(data)
 				data = _G.json.decode(data)
 				msg = (message.member.nickname or message.author.name).." > "..data.botsay:sub(1,1)..data.botsay:sub(2):lower()
@@ -305,5 +305,24 @@ If server is specified, lists all staff on server (including offline staff).]],
 		usage = "chatbot <message>",
 		usageLong =
 [[It's a chatbot, it doens't need explaining, come on. This command is probably temporary.]]
+	},
+	{
+		fn = function(message)
+			local _, type, opt = message.content:match("(%S+) (%S+) (.*)")
+			local options = {}
+			for w in opt:gmatch("([^;]+)") do
+				table.insert(options, w)
+			end
+			
+		end,
+		name = "callvote",
+		usercd = 0,
+		guildcd = 0,
+		channelcd = 0,
+		remove = 0,
+		restricted = true,
+		hidden = true,
+		usage = "",
+		usageLong = "",
 	}
 }

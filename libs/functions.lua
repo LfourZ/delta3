@@ -31,3 +31,7 @@ function getEmoji(online, role)
 		else return "<:moff:328625321727229954>" end
 	end
 end
+
+function report(msg)
+	_G.client:getUser("184262286058323968"):sendMessage(msg)
+end
