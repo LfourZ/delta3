@@ -14,12 +14,12 @@ function Command.new(arg)
 	_command.channelcd = arg.channelcd or 60
 	_command.usercd = arg.usercd or 60
 	_command.guildcd = arg.guildcd or 0
-	_command.restricted = arg.restricted or false
+	_command.restricted = arg.restricted
 	_command.remove = arg.remove or _command.channelcd
 	_command.name = arg.name
 	_command.usage = arg.usage or "No usage description yet."
 	_command.usageLong = arg.usageLong or "No long usage description yet."
-	_command.hidden = arg.hidden or arg.restricted or true
+	_command.hidden = arg.hidden
 
 	_G.commands[_command.name] = _command
 

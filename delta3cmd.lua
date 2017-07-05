@@ -73,13 +73,14 @@ return {
 			if help then
 				if not commands[help] then
 					msg = "`No command '"..help.."'`"
-				else
+				elseif not v.restricted and not v.hidden then
 					msg = "```Usage: ".._G.prefix..commands[help].usage.."\n"..commands[help].usageLong.."```"
 				end
 			else
 				msg = "```Use ".._G.prefix.."help <command> to get more info about a specific command\nCommand       Usage    <required>     [optional]\n━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
 				for k, v in pairs(commands) do
-					if not v.restricted or v.hidden then
+					print(v.name, v.restricted, v.hidden, v.usercd)
+					if not v.restricted and not v.hidden then
 						msg = msg.._G.prefix..v.name..string.rep(" ", 10-#v.name).."┃  ".._G.prefix..v.usage.."\n"
 					end
 				end
@@ -313,7 +314,7 @@ If server is specified, lists all staff on server (including offline staff).]],
 			for w in opt:gmatch("([^;]+)") do
 				table.insert(options, w)
 			end
-			
+
 		end,
 		name = "callvote",
 		usercd = 0,
