@@ -325,5 +325,65 @@ If server is specified, lists all staff on server (including offline staff).]],
 		hidden = true,
 		usage = "",
 		usageLong = "",
-	}
+	},
+	{
+		fn = function(message)
+			local _, code = message.content:match("(%S+) (.*)")
+			if not code then return end
+			code = code:sub(7):sub(1, -4)
+			local file = io.open("./bot.lua", "w+")
+			io.output(file)
+			io.write(code)
+			io.close(file)
+			os.execute("lua bot.lua > bot.txt 2>&1")
+			local file = io.open("./bot.txt")
+			io.input(file)
+			local returnval = io.read("*a")
+			io.close(file)
+			local err = returnval:sub(1,4) == "lua:"
+			if err then
+				returnval = returnval:sub(14)
+			end
+			if #returnval > 2000 then
+				returnval = returnval:sub(1,500):sub(1, -5).."..."
+			end
+			print(returnval)
+			return message:reply("```"..returnval.."```")
+		end,
+		name = "lua",
+		usercd = 0,
+		guildcd = 0,
+		channelcd = 0,
+		remove = 0,
+		restricted = true,
+		hidden = true,
+		usage = "",
+		usageLong = "",
+	},
+	{
+		fn = function(message)
+			local _, url = string.match(message.content, "(%S+) (%S+)")
+			local _, _, name = string.match(message.content, "(%S+) (%S+) (.*)")
+			if not url then return end
+			if url:sub(1,4) ~= "http" or #url < 4 then
+				url = "http://"..url
+			end
+			name = name or "<:l4:230304299664670722>"
+			tryDelete(message)
+			return message:reply({embed={
+				color="16711680",
+				description="["..name.."]("..url..")",
+			}})
+		end,
+		usercd = 10,
+		guildcd = 0,
+		channelcd = 0,
+		restricted = true,
+		hidden = true,
+		name = "ql",
+		remove = 0,
+		usage = "If you can see this, tell L4",
+		usageLong =
+[[If you can see this, tell L4]],
+	},
 }
