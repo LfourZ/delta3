@@ -9,22 +9,22 @@ return {
 			local sstr = ""
 			local surfMap = ""
 			for k, v in pairs(data.serverlist.server) do
-				sstr=sstr.."`".._G.cData.id[tonumber(v.id)]..": "..v.act.."/"..v.max.."` [Click to join](steam://connect/"..v.addr..":"..v.port..")\n"
+				sstr = sstr.."`".._G.cData.id[tonumber(v.id)]..": "..v.act.."/"..v.max.."` [Click to join](steam://connect/"..v.addr..":"..v.port..")\n"
 				if v.id == "3" then
 					surfMap = v.map
 				end
 			end
 			if surfMap then
 				sstr = sstr.."Surf map: `"..surfMap.."`"
-				if surfMap:sub(1,5) == "surf_" then
+				if surfMap:sub(1, 5) == "surf_" then
 					surfMap = surfMap:sub(6)
 				end
 			end
 			tryDelete(message)
-			return message:reply({embed={
-				title="Serverlist",
-				color="16711680",
-				description=sstr,
+			return message:reply({embed = {
+				title = "Serverlist",
+				color = "16711680",
+				description = sstr,
 			}})
 		end,
 		usercd = 10,
@@ -35,7 +35,7 @@ return {
 		remove = 20,
 		usage = "servers",
 		usageLong =
-[[Lists all servers as well as their player status, and a direct link to join.]],
+		[[Lists all servers as well as their player status, and a direct link to join.]],
 	},
 	{
 		fn = function(message)
@@ -112,7 +112,7 @@ If a command is specified, shows detailed description of command.]]
 		remove = 20,
 		usage = "group",
 		usageLong =
-[[Dislpays link to the SKUFS steam group.]]
+		[[Dislpays link to the SKUFS steam group.]]
 	},
 	{
 		fn = function(message)
@@ -261,20 +261,20 @@ If server is specified, lists all staff on server (including offline staff).]],
 			end
 			tryDelete(message)
 			return message:reply(
-			{embed={
-				title = "Click to join!",
-				description = msg,
-			}})
-		end,
-		udercd = 20,
-		guildcd = 0,
-		channelcd = 0,
-		restricted = false,
-		name = "join",
-		remove = 20,
-		usage = "join",
-		usageLong =
-[[Sends list of links to join the servers.]],
+				{embed = {
+					title = "Click to join!",
+					description = msg,
+				}})
+			end,
+			udercd = 20,
+			guildcd = 0,
+			channelcd = 0,
+			restricted = false,
+			name = "join",
+			remove = 20,
+			usage = "join",
+			usageLong =
+			[[Sends list of links to join the servers.]],
 	},
 	{
 		fn = function(message)
@@ -305,25 +305,6 @@ If server is specified, lists all staff on server (including offline staff).]],
 		usage = "chatbot <message>",
 		usageLong =
 [[It's a chatbot, it doens't need explaining, come on. This command is probably temporary.]]
-	},
-	{
-		fn = function(message)
-			local _, type, opt = message.content:match("(%S+) (%S+) (.*)")
-			local options = {}
-			for w in opt:gmatch("([^;]+)") do
-				table.insert(options, w)
-			end
-
-		end,
-		name = "callvote",
-		usercd = 0,
-		guildcd = 0,
-		channelcd = 0,
-		remove = 0,
-		restricted = true,
-		hidden = true,
-		usage = "",
-		usageLong = "",
 	},
 	{
 		fn = function(message)
@@ -361,28 +342,36 @@ If server is specified, lists all staff on server (including offline staff).]],
 	},
 	{
 		fn = function(message)
-			local _, url = string.match(message.content, "(%S+) (%S+)")
-			local _, _, name = string.match(message.content, "(%S+) (%S+) (.*)")
-			if not url then return end
-			if url:sub(1,4) ~= "http" or #url < 4 then
-				url = "http://"..url
-			end
-			name = name or "<:l4:230304299664670722>"
+			local _, msg = message.content:match("(%D+) (.*)")
+			if not msg then return end
 			tryDelete(message)
-			return message:reply({embed={
-				color="16711680",
-				description="["..name.."]("..url..")",
-			}})
+			message:reply(msg)
 		end,
-		usercd = 10,
+		name = "say",
+		usercd = 0,
 		guildcd = 0,
 		channelcd = 0,
+		remove = 0,
 		restricted = true,
 		hidden = true,
-		name = "ql",
-		remove = 0,
-		usage = "If you can see this, tell L4",
-		usageLong =
-[[If you can see this, tell L4]],
+		usage = "",
+		usageLong = "",
 	},
+	{
+		fn = function(message)
+			local _, msg = message.content:match("(%D+) (.*)")
+			if not msg then return end
+			report(msg)
+			return message:reply("`Your submission has been recorded.`")
+		end,
+		name = "submit",
+		usercd = 0,
+		guildcd = 0,
+		channelcd = 0,
+		remove = 0,
+		restricted = true,
+		hidden = true,
+		usage = "submit <submission>",
+		usageLong = "use this to submit a suggestion",
+	}
 }

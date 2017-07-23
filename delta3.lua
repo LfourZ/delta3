@@ -1,3 +1,9 @@
+_G.json = require("libs/dkjson")
+local file = io.open("koins/users.json", "r")
+io.input(file)
+_G.koins = _G.json.decode(file:read("*a")) or {}
+io.close(file)
+
 require("libs/functions")
 _G.commands = {}
 _G.cooldown = {
@@ -7,7 +13,6 @@ _G.cooldown = {
 }
 _G.timer = require("timer")
 _G.http = require("coro-http")
-_G.json = require("libs/dkjson")
 _G.prefix = "!"
 _G.htmlparser = require("htmlparser")
 _G.https = require("https")

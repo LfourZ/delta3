@@ -3,7 +3,7 @@ function lastOnline(s)
 	if not f or not l then
 		return lastOnline(os.date("%d/%m"))
 	end
-	return {d=f,m=l}
+	return {d = f, m = l}
 end
 
 function getOnline(t)

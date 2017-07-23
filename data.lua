@@ -39,5 +39,9 @@ return {
 		"Surf------",
 		"MarioKart-",
 		"Deathrun--", --Not used, but muh consistency
+	},
+	koins = {
+		daily = 1000,
+		dailyCooldown = 86400,
 	}
 }
