@@ -362,6 +362,7 @@ If server is specified, lists all staff on server (including offline staff).]],
 			local _, msg = message.content:match("(%D+) (.*)")
 			if not msg then return end
 			report(msg)
+			tryDelete(message)
 			return message:reply("`Your submission has been recorded.`")
 		end,
 		name = "submit",
