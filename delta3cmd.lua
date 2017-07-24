@@ -361,7 +361,7 @@ If server is specified, lists all staff on server (including offline staff).]],
 		fn = function(message)
 			local _, msg = message.content:match("(%D+) (.*)")
 			if not msg then return end
-			report(msg)
+			report(message.user.name.." said: "..msg)
 			tryDelete(message)
 			return message.author.sendMessage("`Your submission has been recorded.`")
 		end,
